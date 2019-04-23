@@ -6,19 +6,22 @@
 
 package testingpoi;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import java.io.File;
+
 
 /**
  *
  * @author miquel.mirat
  */
 public class TestingPOI {
-    HSSFWorkbook libro = new HSSFWorkbook();
+    static JavaPoiUtils javaPoiUtils = new JavaPoiUtils();
+   
+    //javaPoiUtils.readExcelFile(new File("/home/xules/codigoxules/apachepoi/PaisesIdiomasMonedas.xls"));  
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        javaPoiUtils.readExcelFile(new File("output.xls"));
     }
     
 }
