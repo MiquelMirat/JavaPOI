@@ -16,6 +16,7 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook; 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -53,7 +54,7 @@ public class JavaPoiUtils {
             int cols = 0;            
             // A string used to store the reading cell
             // Cadena que usamos para almacenar la lectura de la celda
-            String cellValue;  
+            String cellValue = "";  
             // For this example we'll loop through the rows getting the data we want
             // Para este ejemplo vamos a recorrer las filas obteniendo los datos que queremos            
             for (int r = 0; r < rows; r++) {
@@ -67,9 +68,18 @@ public class JavaPoiUtils {
                             We have those cell types (tenemos estos tipos de celda): 
                                 CELL_TYPE_BLANK, CELL_TYPE_NUMERIC, CELL_TYPE_BLANK, CELL_TYPE_FORMULA, CELL_TYPE_BOOLEAN, CELL_TYPE_ERROR
                         */
-                        System.out.println(row.getCell(c).getCellType());
-                        cellValue = row.getCell(c) == null?"": row.getCell(c).getStringCellValue();
-                        
+                        if (row.getCell(c) != null) {
+                            //System.out.println(row.getCell(c).getCellType());
+                            if (row.getCell(c).getCellType() == CellType.STRING) {
+                                cellValue = row.getCell(c).getStringCellValue();
+                            } else if (row.getCell(c).getCellType() == CellType.NUMERIC) {
+                                cellValue = String.valueOf(row.getCell(c).getNumericCellValue());
+                            }
+
+                        } else {
+                            cellValue = "";
+                        }
+
 //                                (row.getCell(c).getCellType() == Cell.CELL_TYPE_STRING)?row.getCell(c).getStringCellValue():
 //                                (row.getCell(c).getCellType() == Cell.CELL_TYPE_NUMERIC)?"" + row.getCell(c).getNumericCellValue():
 //                                (row.getCell(c).getCellType() == Cell.CELL_TYPE_BOOLEAN)?"" + row.getCell(c).getBooleanCellValue():
@@ -78,7 +88,6 @@ public class JavaPoiUtils {
 //                                (row.getCell(c).getCellType() == Cell.CELL_TYPE_ERROR)?"ERROR":"";                       
                         System.out.print("[Column " + c + ": " + cellValue + "] ");
                     }
-                    System.out.println();
                 }
             }            
         } catch (FileNotFoundException fileNotFoundException) {
@@ -107,4 +116,21 @@ public class JavaPoiUtils {
 //        JavaPoiUtils javaPoiUtils = new JavaPoiUtils();
 //        javaPoiUtils.readExcelFile(new File("/home/xules/codigoxules/apachepoi/PaisesIdiomasMonedas.xls"));        
 //    }    
+    
+    
+    
+    
+    ///codigo de ejemplo!
+    
+//    XSSFWorkbook wb = new XSSFWorkbook();
+//    XSSFSheet sheet = wb.createSheet();
+//    XSSFRow row = sheet.createRow(0);
+//    XSSFCell cell = row.createCell( 0);
+//    cell.setCellValue("custom XSSF colors");
+//
+//    XSSFCellStyle style1 = wb.createCellStyle();
+//    style1.setFillForegroundColor(new XSSFColor(new java.awt.Color(128, 0, 128), new DefaultIndexedColorMap()));
+//    style1.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+//                    
+//Reading and Rewriting Workbooks
 }
